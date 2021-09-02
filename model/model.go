@@ -8,6 +8,9 @@ import (
 const (
 	Width  = 15
 	Height = 60
+
+	ShapeWidth  = 4
+	ShapeHeight = 2
 )
 
 type TileKind uint8
@@ -37,8 +40,12 @@ const (
 type Block struct {
 	X     uint8
 	Y     uint8
-	Angle uint8 // 0-3; represents the multiple 90 degrees.
+	Angle Direction
 	Kind  TileKind
+}
+
+func bottomRow(b *Block) [][2]uint8 {
+	return nil
 }
 
 type Model interface {
@@ -94,6 +101,13 @@ func (m *model) Update(dt time.Duration) {
 	m.MoveCurrentBlock(DirectionDown)
 }
 
+func (m *model) isCollision() bool {
+	return false
+}
+
+func (m *model) freezeCurrent() {
+}
+
 func (m *model) nextUpdate() time.Time {
 	return m.lastUpdated.Add(m.levelGap())
 }
@@ -117,6 +131,14 @@ func (m *model) randomBlock() *Block {
 		Y:    m.startingY(),
 		Kind: TileKind(m.rand.Intn(int(TileLast)-1) + 1),
 	}
+}
+
+func (m *model) startingX() uint8 {
+	return uint8(Width / 2)
+}
+
+func (m *model) startingY() uint8 {
+	return uint8(Height)
 }
 
 func (m *model) levelGap() time.Duration {
