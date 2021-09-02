@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/retrogamecoder/fallingblocks/model"
@@ -28,4 +29,5 @@ func run() {
 }
 
 func main() {
+	fmt.Println(model.TileNone)
 }
