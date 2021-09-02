@@ -37,17 +37,6 @@ const (
 	DirectionRight
 )
 
-type Block struct {
-	X     uint8
-	Y     uint8
-	Angle Direction
-	Kind  TileKind
-}
-
-func bottomRow(b *Block) [][2]uint8 {
-	return nil
-}
-
 type Model interface {
 	Tiles() [Width][Height + 1]TileKind
 	CurrentBlock() *Block

@@ -16,18 +16,32 @@ func TestRotateT(t *testing.T) {
 			direction: DirectionUp,
 			wantShape: shapes[TileT],
 		},
-		/*{
-			desc: "rotate down",
+		{
+			desc:      "rotate down",
 			direction: DirectionDown,
+			wantShape: Shape{
+				{false, true},
+				{true, true},
+				{false, true},
+				{false, false},
+			},
 		},
 		{
-			desc: "rotate left",
+			desc:      "rotate left",
 			direction: DirectionLeft,
+			wantShape: Shape{
+				{false, true, false, false},
+				{true, true, true, false},
+			},
 		},
 		{
-			desc: "rotate right",
+			desc:      "rotate right",
 			direction: DirectionRight,
-		},*/
+			wantShape: Shape{
+				{true, true, true, false},
+				{false, true, false, false},
+			},
+		},
 	} {
 		t.Run(test.desc, func(t *testing.T) {
 			gotShape := rotate(shapes[TileT], test.direction)

@@ -56,13 +56,60 @@ func rotate(s Shape, d Direction) Shape {
 		for x := 0; x < ShapeWidth; x++ {
 			result = append(result, []bool{false, false})
 			for y := 0; y < ShapeHeight; y++ {
-				result[ShapeWidth-x-1][ShapeHeight-y-1] = s[x][y]
+				result[x][y] = s[ShapeWidth-x-1][ShapeHeight-y-1]
 			}
 		}
-		return result
+
+		return trimTopRow(result)
 	case DirectionLeft:
+		result := Shape{}
+		for x := 0; x < ShapeHeight; x++ {
+			result = append(result, []bool{false, false, false, false})
+			for y := 0; y < ShapeWidth; y++ {
+				result[x][y] = s[ShapeWidth-y-1][ShapeHeight-x-1]
+			}
+		}
+
+		return trimFirstColumn(result)
 	case DirectionRight:
+		result := Shape{}
+		for x := 0; x < ShapeHeight; x++ {
+			result = append(result, []bool{false, false, false, false})
+			for y := 0; y < ShapeWidth; y++ {
+				result[x][y] = s[y][x]
+			}
+		}
+
+		return trimFirstColumn(result)
 	}
 
 	return nil
+}
+
+func trimTopRow(s Shape) Shape {
+	for _, isSet := range s[0] {
+		if isSet {
+			return s
+		}
+	}
+
+	topRow := s[0]
+	s = s[1:]
+	s = append(s, topRow)
+	return s
+}
+
+func trimFirstColumn(s Shape) Shape {
+	for _, row := range s {
+		if row[0] {
+			return s
+		}
+	}
+
+	for idx := range s {
+		s[idx] = s[idx][1:]
+		s[idx] = append(s[idx], false)
+	}
+
+	return s
 }
